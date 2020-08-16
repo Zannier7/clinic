@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Clinica Code</title>
+    <th:block th:insert="fragments/resources-css"/>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:insert="fragments/navbar"/>
+
+    <div class="container-fluid page-body-wrapper">
+        <th:block th:insert="fragments/sidebar"/>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!--CONTENIDO DE LA PAGINA-->
+                <!-- Page Title Header Starts-->
+                <!-- Page Title Header Starts-->
+                <div class="row page-title-header">
+                    <div class="col-12">
+                        <div class="page-header">
+                            <h4 class="page-title">Gestionar Consulta Medica</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- FORM ADD-->
+                <div class="col-12 col-md-12 col-sm-12 stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">REGISTRAR CONSULTA MEDICA</h4>
+                            <p class="card-description"> </p>
+                            <form class="forms-sample"
+                                  th:action="@{/consulta/registrar}"
+                                  th:method="post">
+                                <div class="row m-auto">
+                                    <div class="form-group row col-md-6">
+                                        <label for="fecha-consulta" class="col-sm-3 col-form-label">FECHA</label>
+                                        <div class="col-sm-9">
+                                            <input type="date" name="fecha" required="required" class="form-control" th:value="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}" id="fecha-consulta" placeholder="Escriba el nombre del PACIENTE">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row col-md-6">
+                                        <label for="paciente-consulta" class="col-sm-3 col-form-label">DNI PACIENTE</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  name="dni" required="required" class="form-control" id="paciente-consulta" placeholder="Escriba el DNI del PACIENTE">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="diagnostico-consulta">DIAGNOSTICO</label>
+                                    <textarea class="form-control" name="diagnostico" required="required" id="diagnostico-consulta" rows="2" placeholder="Escriba el DIAGNOSTICO del PACIENTE"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tratamiento-consulta">TRATAMIENTO</label>
+                                    <textarea class="form-control" name="tratamiento" required="required" id="tratamiento-consulta" rows="2" placeholder="Escriba el TRATAMIENTO del PACIENTE"></textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-success float-right ml-2" id="registrarBtn">REGISTRAR</button>
+                                <button class="btn btn-light float-right">CANCELAR</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:insert="fragments/footer"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="fragments/resources-js"/>
+</body>
+</html>

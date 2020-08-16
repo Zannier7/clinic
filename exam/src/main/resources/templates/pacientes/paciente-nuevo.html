@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Clinica Code</title>
+    <th:block th:insert="fragments/resources-css"/>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:insert="fragments/navbar"/>
+
+    <div class="container-fluid page-body-wrapper">
+        <th:block th:insert="fragments/sidebar"/>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="col-sm-12 col-md-6 col-lg-6 m-auto stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title text-center">REGISTRAR PACIENTE</h4>
+                            <form class="forms-sample" th:action="@{/paciente/registrar}" th:method="post" th:object="${pacienteNuevo}">
+                                <div th:if="${#fields.hasErrors('*')}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <ul class="list list--check" style="margin-block-end: 0;">
+                                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+                                    </ul>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="name-paciente" class="col-sm-3 col-form-label">NOMBRE</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"  th:field="*{firstName}" id="name-paciente" placeholder="Escriba el nombre del PACIENTE">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="last-paciente" class="col-sm-3 col-form-label">APELLIDOS</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control"  th:field="*{lastName}" id="last-paciente" placeholder="Escriba el apellido del PACIENTE">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="dni-paciente" class="col-sm-3 col-form-label">DNI</label>
+                                    <div class="col-sm-9">
+                                        <input type="text"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="8" class="form-control" th:field="*{dni}" id="dni-paciente" placeholder="Escriba el dni del PACIENTE">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="historia-paciente" class="col-sm-3 col-form-label">HISTORIA CLINICA</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="historia-paciente"  th:field="*{numeroHistoriaClinica}" placeholder="Escriba la historia clínica del PACIENTE">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success float-right ml-2">REGISTRAR</button>
+                                <a class="btn btn-light float-right" th:href="@{/paciente/pacientes}">CANCELAR</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:insert="fragments/footer"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="fragments/resources-js"/>
+</body>
+</html>

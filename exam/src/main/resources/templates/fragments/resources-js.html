@@ -1,0 +1,35 @@
+<script th:src="@{/vendors/js/vendor.bundle.base.js}"></script>
+<script th:src="@{/vendors/js/vendor.bundle.addons.js}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script th:src="@{/js/shared/off-canvas.js}"></script>
+<script th:src="@{/js/shared/misc.js}"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script th:src="@{/js/demo_1/dashboard.js}"></script>
+<!-- End custom js for this page-->
+<script th:src="@{/webjars/sweetalert2/9.15.1/dist/sweetalert2.all.min.js}" language="JavaScript" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        function validate(evt) {
+            var theEvent = evt || window.event;
+
+            // Handle paste
+            if (theEvent.type === 'paste') {
+                key = event.clipboardData.getData('text/plain');
+            } else {
+                // Handle key press
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+            }
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+    });
+</script>

@@ -1,0 +1,71 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+            <a href="#" class="nav-link">
+                <div class="profile-image">
+                    <img class="img-xs rounded-circle" th:src="@{/images/faces/face8.jpg}" alt="profile image">
+                    <div class="dot-indicator bg-success"></div>
+                </div>
+                <div class="text-wrapper" th:if="${session.medicoLogin}">
+                    <p class="profile-name" th:text="${session.medicoLogin.getFirstName()}"/>
+                    <p class="designation"  th:text="${session.medicoLogin.getRol()}" />
+                </div>
+            </a>
+        </li>
+        <li class="nav-item nav-category">Menu</li>
+        <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+            <a class="nav-link" data-toggle="collapse" href="#mantenimiento" aria-expanded="false" aria-controls="ui-basic">
+                <i class="menu-icon typcn typcn-coffee"></i>
+                <span class="menu-title">Mantenimiento</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="mantenimiento">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/especialidad/especialidades}">Especialidades</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/medico/medicos}">Médicos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/paciente/pacientes}">Pacientes</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item" sec:authorize="hasAuthority('USER')">
+            <a class="nav-link" data-toggle="collapse" href="#consultas" aria-expanded="false" aria-controls="ui-basic">
+                <i class="menu-icon typcn typcn-coffee"></i>
+                <span class="menu-title">Consulta Médica</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="consultas">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/consulta/generar}">Generar Consulta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/detallesConsulta/consultasPaciente}">Consultas por Paciente</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                <i class="menu-icon typcn typcn-document-add"></i>
+                <span class="menu-title">Reportes</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="auth">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item active" sec:authorize="hasAuthority('USER')">
+                        <a class="nav-link" th:href="@{/detallesConsulta/historia}">Historia Clinica</a>
+                    </li>
+                    <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link" th:href="@{/medico/reporte/especialidad}">Médicos por Especialidad</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</nav>

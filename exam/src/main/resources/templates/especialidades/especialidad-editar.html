@@ -1,0 +1,63 @@
+<!--FORM EDIT-->
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Clinica Code</title>
+    <th:block th:insert="fragments/resources-css"/>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:insert="fragments/navbar"/>
+
+    <div class="container-fluid page-body-wrapper">
+        <th:block th:insert="fragments/sidebar"/>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!--CONTENIDO DE LA PAGINA-->
+                <!-- Page Title Header Starts-->
+                <div class="col-6 m-auto stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">EDITAR DATOS DE ESPECIALIDAD</h4>
+                            <p class="card-description"> </p>
+                            <form class="forms-sample"
+                                  th:method="post"
+                                  th:object="${especialidadEditar}"
+                                  th:action="@{/especialidad/actualizar/{id}(id=${especialidadEditar.id})}">
+                                <div th:if="${#fields.hasErrors('*')}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <ul class="list list--check" style="margin-block-end: 0;">
+                                        <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+                                    </ul>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="name-especialidad" class="col-sm-3 col-form-label">Nombre Especialidad</label>
+                                    <div class="col-sm-9">
+                                        <input type="hidden" th:field="*{id}">
+                                        <input type="text" th:field="*{name}" class="form-control" id="name-especialidad" placeholder="Escriba el nombre de la especialidad">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-warning float-right ml-2">EDITAR</button>
+                                <a th:href="@{/especialidad/especialidades}" class="btn btn-light float-right">CANCELAR</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:insert="fragments/footer"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="fragments/resources-js"/>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Clinica Code</title>
+    <th:block th:insert="fragments/resources-css"/>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:insert="fragments/navbar"/>
+
+    <div class="container-fluid page-body-wrapper">
+        <th:block th:insert="fragments/sidebar"/>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">REGISTRAR MEDICO</h4>
+                        <form class="forms-sample"
+                              th:action="@{/medico/registrar}"
+                              th:method="post"
+                              th:object="${medicoNuevo}">
+                            <div th:if="${#fields.hasErrors('*')}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <ul class="list list--check" style="margin-block-end: 0;">
+                                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+                                </ul>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="form-group row">
+                                <label for="name-medico" class="col-sm-3 col-form-label">NOMBRE</label>
+                                <div class="col-sm-9">
+                                    <input type="text"  class="form-control" th:field="*{firstName}" id="name-medico" placeholder="Escriba el nombre del médico">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="last-medico" class="col-sm-3 col-form-label">APELLIDOS</label>
+                                <div class="col-sm-9">
+                                    <input type="text"  class="form-control" th:field="*{lastName}" id="last-medico" placeholder="Escriba el apellido del médico">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="dni-medico" class="col-sm-3 col-form-label">DNI</label>
+                                <div class="col-sm-9">
+                                    <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  maxlength="8" th:field="*{dni}" class="form-control" id="dni-medico" placeholder="Escriba el dni del médico">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cmp-medico" class="col-sm-3 col-form-label">CMP</label>
+                                <div class="col-sm-9">
+                                    <input type="text"  th:field="*{cmp}" class="form-control" id="cmp-medico" placeholder="Escriba el CMP del médico">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="cmp-medico" class="col-sm-3 col-form-label">Contraseña</label>
+                                <div class="col-sm-9">
+                                    <input type="password"  th:field="*{clave}" class="form-control" id="pass-medico" placeholder="Escriba la CONTRASEÑA del médico">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="rol" class="col-form-label col-sm-3">Rol</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="rol" th:field="*{rol}">
+                                        <option value="ADMIN">ADMIN</option>
+                                        <option value="USER">USER</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="especialidades" class="col-sm-3 col-form-label">Especialidades</label>
+                                <div class="col-sm-9">
+                                    <select  class="form-control" name="idEspecialidad" id="especialidades" th:object="${especialidadMedico}">
+                                        <option disabled value="MEDICINA GENERAL">Selecciona Especialidad</option>
+                                        <option th:each="especialidad : ${especialidades}" th:value="${especialidad.id}" th:text="${especialidad.name}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success float-right ml-2">REGISTRAR</button>
+                            <a class="btn btn-light float-right" th:href="@{/medico/medicos}">CANCELAR</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <th:block th:insert="fragments/footer"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="fragments/resources-js"/>
+</body>
+</html>
+

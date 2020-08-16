@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Clinica Code</title>
+    <th:block th:insert="fragments/resources-css"/>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:insert="fragments/navbar"/>
+
+    <div class="container-fluid page-body-wrapper">
+        <th:block th:insert="fragments/sidebar"/>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!--CONTENIDO DE LA PAGINA-->
+                <!-- Page Title Header Starts-->
+                <!-- Page Title Header Starts-->
+                <div class="row page-title-header">
+                    <div class="col-12">
+                        <div class="page-header">
+                            <h4 class="page-title">Mantenimiento Datos Paciente</h4>
+                        </div>
+                    </div>
+                </div>
+                <!--TABLES-->
+                <div class="col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Pacientes</h4>
+                            <p class="card-description text-right">
+                                <a th:href="@{/paciente/nuevo}" class="btn btn-outline-primary btn-fw btn-lg">
+                                    <i class="mdi mdi-account-multiple-plus"></i>Registrar Paciente</a>
+                            </p>
+                            <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm">
+                                <table class="table table-hover text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>NOMBRES</th>
+                                        <th>APELLIDOS</th>
+                                        <th>DNI</th>
+                                        <th>HISTORIA CLINICA</th>
+                                        <th>OPCIONES</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                    <tr th:each="paciente : ${pacientes}">
+                                        <td th:text="${paciente.firstName}"></td>
+                                        <td th:text="${paciente.lastName}"></td>
+                                        <td th:text="${paciente.dni}"></td>
+                                        <td th:text="${paciente.numeroHistoriaClinica}"></td>
+                                        <td>
+                                            <a th:href="@{/paciente/editar/{id}(id=${paciente.id})}"
+                                               class="btn social-btn btn-rounded btn-outline-warning">
+                                                <i class="mdi mdi-circle-edit-outline"></i>
+                                            </a>
+                                            <a href="#" th:onclick="'eliminarPaciente('+${paciente.id}+')'"
+                                               class="btn social-btn btn-rounded btn-outline-danger">
+                                                <i class="mdi mdi-trash-can-outline"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:insert="fragments/footer"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="fragments/resources-js"/>
+<script type="text/javascript">
+    function eliminarPaciente(id) {
+        Swal.fire({
+            title: 'Eliminar Paciente',
+            html: "Esta operaci&oacute;n no se podr&aacute; revertir",
+            icon : "warning",
+            showCancelButton: true,
+            confirmButtonText: 'S&iacute;, Eliminar paciente',
+            confirmButtonColor: '#d33',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                return fetch("/paciente/eliminar/" + id, { method: 'POST' })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Ocurrio un error")
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(error)
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire({
+                    title: "Resultado",
+                    text: result.value.message
+                }).then((result) => {
+                    window.location = "/paciente/pacientes";
+                })
+            }
+        });
+    }
+</script>
+<!-- Modal REGISTRAR-->
+<!--<div class="modal fade" id="registrarPaciente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-dialog-centered" role="document">-->
+<!--        <div class="modal-content" style="border-radius: 10px!important; padding: 30px!important;">-->
+<!--            <div class="modal-body">-->
+<!--                <th:block th:insert="pacientes/paciente-nuevo"/>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+</body>
+</html>
+

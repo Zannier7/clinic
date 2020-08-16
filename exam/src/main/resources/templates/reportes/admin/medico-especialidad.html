@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Clinica Code</title>
+    <th:block th:insert="fragments/resources-css"/>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:insert="fragments/navbar"/>
+
+    <div class="container-fluid page-body-wrapper">
+        <th:block th:insert="fragments/sidebar"/>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!--CONTENIDO DE LA PAGINA-->
+                <!-- Page Title Header Starts-->
+                <div class="row page-title-header">
+                    <div class="col-12">
+                        <div class="page-header">
+                            <h4 class="page-title">Medicos Por Especialidad</h4>
+                        </div>
+                    </div>
+                </div>
+                <!--TABLES-->
+                <div class="col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Buscar Medicos Por Especialidad - PDF</h4>
+                            <form th:action="@{/reporte-admin/medico-especialidad}" th:method="post">
+                                <div th:if="${errorPDF}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <p th:text="${errorPDF}" class="text-center"></p>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div th:if="${infoPDF}" class="alert alert-info alert-dismissible fade show" role="alert">
+                                    <p th:text="${infoPDF}" class="text-center"></p>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="especialidad" class="col-sm-3 col-form-label">Especialidades</label>
+                                    <div class="col-sm-4">
+                                        <select  class="form-control" id="especialidad" name="id" required="required">
+                                            <option disabled value="MEDICINA GENERAL">Selecciona Especialidad</option>
+                                            <option th:each="especialidad : ${especialidades}" th:value="${especialidad.id}" th:text="${especialidad.name}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5 col-sm-12 text-center">
+                                        <button type="submit" class="btn btn-outline-primary btn-fw pull-right">
+                                            <i class="mdi mdi-file-document"></i>DESCARGAR EN PDF</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <p class="col-md-12"></p>
+                            <h4 class="card-title">Buscar Medicos Por Especialidad - ONLINE</h4>
+                            <br>
+                                <form th:action="@{/medico/buscar}" th:method="post">
+                                    <div th:if="${errorOnline}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <p th:text="${errorOnline}"></p>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="especialidad" class="col-sm-3 col-form-label">Especialidades</label>
+                                        <div class="col-sm-4">
+                                            <select  class="form-control" id="especialidad" name="id" required="required">
+                                                <option disabled value="MEDICINA GENERAL">Selecciona Especialidad</option>
+                                                <option th:each="especialidad : ${especialidades}" th:value="${especialidad.id}" th:text="${especialidad.name}"></option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-5 col-sm-12 text-center">
+                                            <button type="submit" class="btn btn-outline-primary btn-fw pull-right">
+                                                <i class="mdi mdi-search-web"></i>BUSCAR</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm">
+                                <table class="table table-hover text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>NOMBRE</th>
+                                        <th>APELLIDO</th>
+                                        <th>DNI</th>
+                                        <th>CMP</th>
+                                        <th>ESPECIALIDAD</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center" th:if="${medicos != null}">
+                                    <tr th:each="medico : ${medicos}">
+                                        <td th:text="${medico.firstName}"></td>
+                                        <td th:text="${medico.lastName}"></td>
+                                        <td th:text="${medico.dni}"></td>
+                                        <td th:text="${medico.cmp}"></td>
+                                        <td th:text="${medico.especialidad.name}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:insert="fragments/footer"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="fragments/resources-js"/>
+</body>
+</html>

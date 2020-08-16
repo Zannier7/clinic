@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Clinica Code</title>
+    <th:block th:insert="fragments/resources-css"/>
+</head>
+<body>
+<div class="container-scroller">
+    <th:block th:insert="fragments/navbar"/>
+
+    <div class="container-fluid page-body-wrapper">
+        <th:block th:insert="fragments/sidebar"/>
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <!--CONTENIDO DE LA PAGINA-->
+                <!-- Page Title Header Starts-->
+                <!-- Page Title Header Starts-->
+                <div class="row page-title-header">
+                    <div class="col-12">
+                        <div class="page-header">
+                            <h4 class="page-title">Mantenimiento de Especialidades</h4>
+                        </div>
+                    </div>
+                </div>
+                <!--TABLES-->
+                <div class="col-lg-12 col-md-12 col-sm-12 grid-margin stretch-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">ESPECIALIDADES</h4>
+                            <p class="card-description text-right">
+                                <a class="btn btn-outline-primary btn-fw btn-lg"
+                                        th:href="@{/especialidad/nueva}">
+                                    <i class="mdi mdi-plus-box"></i>Agregar Especialidad</a>
+                            </p>
+                            <div class="table-responsive table-responsive-lg table-responsive-md table-responsive-sm">
+                                <table class="table text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>N#</th>
+                                        <th>Especialidad</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                    <tr th:each="especialidad : ${especialidades}">
+                                        <td th:text="${especialidad.id}"></td>
+                                        <td th:text="${especialidad.name}"></td>
+                                        <td>
+                                            <a th:href="@{/especialidad/editar/{id}(id=${especialidad.id})}" class="btn social-btn btn-rounded btn-outline-warning">
+                                                <i class="mdi mdi-circle-edit-outline"></i>
+                                            </a>
+                                            <button type="button" th:onclick="'eliminarEspecialidad('+${especialidad.id}+')'" class="btn social-btn btn-rounded btn-outline-danger">
+                                                <i class="mdi mdi-trash-can-outline"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <th:block th:insert="fragments/footer"/>
+        </div>
+    </div>
+</div>
+
+<th:block th:insert="fragments/resources-js"/>
+<script type="text/javascript">
+    function eliminarEspecialidad(id) {
+        Swal.fire({
+            title: 'Eliminar Especialidad',
+            html: "Esta operaci&oacute;n no se podr&aacute; revertir",
+            icon : "warning",
+            showCancelButton: true,
+            confirmButtonText: 'S&iacute;, Eliminar especialidad',
+            confirmButtonColor: '#d33',
+            showLoaderOnConfirm: true,
+            preConfirm: () => {
+                return fetch("/especialidad/eliminar/" + id, { method: 'POST' })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Ocurrio un error")
+                        }
+                        return response.json()
+                    })
+                    .catch(error => {
+                        Swal.showValidationMessage(error)
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire({
+                    title: "Resultado",
+                    text: result.value.message
+                }).then((result) => {
+                    window.location = "/especialidad/especialidades";
+                })
+            }
+        });
+    }
+</script>
+</body>
+</html>
+
+
